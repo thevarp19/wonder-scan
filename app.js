@@ -1,83 +1,87 @@
 function setupLiveReader(resultElement) {
-  var container = document.createElement('div')
+    var container = document.createElement("div");
 
-  container.style.position = 'absolute'
-  container.style.zIndex = '999'
-  container.style.width = '100%'
-  container.style.height = '100%'
-  container.style.left = '0'
-  container.style.top = '0'
+    container.style.position = "absolute";
+    container.style.zIndex = "999";
+    container.style.width = "100%";
+    container.style.height = "100%";
+    container.style.left = "0";
+    container.style.top = "0";
 
-  var canvas = document.createElement('canvas')
-  var video = document.createElement('video')
-  var context = canvas.getContext('2d')
+    var canvas = document.createElement("canvas");
+    var video = document.createElement("video");
+    var context = canvas.getContext("2d");
 
-  canvas.style.position = 'absolute'
+    canvas.style.position = "absolute";
 
-  container.appendChild(canvas)
+    container.appendChild(canvas);
 
-  document.body.insertBefore(container, resultElement)
+    document.body.insertBefore(container, resultElement);
 
-  const constraints = {
-    audio: false,
-    video: {
-      facingMode: 'environment'
-    }
-  }
+    const constraints = {
+        audio: false,
+        video: {
+            facingMode: "environment",
+        },
+    };
 
-  navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(function(stream) {
-      video.width = 320
+    var result_value = document.getElementById("result_value");
 
-      BarcodeScanner.init()
-      BarcodeScanner.streamCallback = function(result) {
-        console.log('barcode detected, stream will stop')
-        resultElement.innerHTML = result[0].Value
-        BarcodeScanner.StopStreamDecode()
-        video.pause()
-        stream.getTracks()[0].stop()
-        container.style.display = 'none'
-      }
+    navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function (stream) {
+            video.width = 320;
 
-      video.setAttribute('autoplay', '')
-      video.setAttribute('playsinline', '')
-      video.setAttribute('style', 'width: 100%')
-      video.srcObject = stream
-      container.appendChild(video)
-      video.onloadedmetadata = function(e) {
-        var canvasSetting = {
-          x: 50,
-          y: 20,
-          width: 200,
-          height: 30
-        }
-        var rect = video.getBoundingClientRect()
-        canvas.style.height = rect.height + 'px'
-        canvas.style.width = rect.width + 'px'
-        canvas.style.top = rect.top + 'px'
-        canvas.style.left = rect.left + 'px'
-        const overlayColor = 'rgba(0,0,0,0.9)'
-        context.fillStyle = overlayColor
-        context.fillRect(0, 0, rect.width, rect.height)
-        context.clearRect(
-          canvasSetting.x,
-          canvasSetting.y,
-          canvasSetting.width,
-          canvasSetting.height
-        )
-        context.strokeStyle = '#ff671f'
-        context.strokeRect(
-          canvasSetting.x,
-          canvasSetting.y,
-          canvasSetting.width,
-          canvasSetting.height
-        )
-        video.play()
-        BarcodeScanner.DecodeStream(video)
-      }
-    })
-    .catch(function(err) {
-      console.log(err)
-    })
+            BarcodeScanner.init();
+            BarcodeScanner.streamCallback = function (result) {
+                console.log("barcode detected, stream will stop");
+                console.log(result);
+                result_value.innerHTML = result[0].Value;
+                // resultElement.innerHTML = result[0].Value;
+                // BarcodeScanner.StopStreamDecode();
+                // video.pause();
+                // stream.getTracks()[0].stop();
+                // container.style.display = "none";
+            };
+
+            video.setAttribute("autoplay", "");
+            video.setAttribute("playsinline", "");
+            video.setAttribute("style", "width: 100%");
+            video.srcObject = stream;
+            container.appendChild(video);
+            video.onloadedmetadata = function (e) {
+                var canvasSetting = {
+                    x: 50,
+                    y: 20,
+                    width: 200,
+                    height: 30,
+                };
+                var rect = video.getBoundingClientRect();
+                canvas.style.height = rect.height + "px";
+                canvas.style.width = rect.width + "px";
+                canvas.style.top = rect.top + "px";
+                canvas.style.left = rect.left + "px";
+                const overlayColor = "rgba(0,0,0,0.9)";
+                context.fillStyle = overlayColor;
+                context.fillRect(0, 0, rect.width, rect.height);
+                context.clearRect(
+                    canvasSetting.x,
+                    canvasSetting.y,
+                    canvasSetting.width,
+                    canvasSetting.height
+                );
+                context.strokeStyle = "#ff671f";
+                context.strokeRect(
+                    canvasSetting.x,
+                    canvasSetting.y,
+                    canvasSetting.width,
+                    canvasSetting.height
+                );
+                video.play();
+                BarcodeScanner.DecodeStream(video);
+            };
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
 }
