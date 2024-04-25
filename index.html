@@ -13,8 +13,10 @@
             id="result_value"
             style="
                 position: fixed;
-                top: 10px;
-                left: 10px;
+                bottom: 14dvh;
+                left: 0;
+                text-align: center;
+                width: 100vw;
                 z-index: 1000;
                 color: white;
                 background-color: black;
@@ -22,6 +24,34 @@
         >
             Value
         </h1>
+        <div
+            style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                position: fixed;
+                bottom: 10dvh;
+                left: 0;
+                width: 100vw;
+                z-index: 1000;
+            "
+        >
+            <button
+                id="save_button"
+                onclick="saveResult()"
+                style="font-size: 24px; padding-inline: 20px"
+            >
+                Save
+            </button>
+            <button
+                id="submit_button"
+                onclick="submitResult()"
+                style="font-size: 24px; padding-inline: 20px"
+            >
+                Submit
+            </button>
+        </div>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="BarcodeScanner.js"></script>
         <script src="app.js"></script>

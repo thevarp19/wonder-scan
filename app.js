@@ -1,4 +1,12 @@
+const localKey = "scannedResults";
+
+function getQueryParameterByKey(key) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(key);
+}
+
 function setupLiveReader(resultElement) {
+    localStorage.removeItem(localKey);
     var container = document.createElement("div");
 
     container.style.position = "absolute";
@@ -34,8 +42,8 @@ function setupLiveReader(resultElement) {
 
             BarcodeScanner.init();
             BarcodeScanner.streamCallback = function (result) {
-                console.log("barcode detected, stream will stop");
-                console.log(result);
+                // console.log("barcode detected, stream will stop");
+                // console.log(result);
                 result_value.innerHTML = result[0].Value;
                 // resultElement.innerHTML = result[0].Value;
                 // BarcodeScanner.StopStreamDecode();
@@ -84,4 +92,35 @@ function setupLiveReader(resultElement) {
         .catch(function (err) {
             console.log(err);
         });
+}
+
+function saveResult() {
+    var result_value = document.getElementById("result_value");
+    let scannedResults = [];
+    try {
+        scannedResults = JSON.parse(localStorage.getItem(localKey)) || [];
+    } catch {}
+    if (scannedResults.includes(result_value.innerText)) {
+        return;
+    }
+    scannedResults.push(result_value.innerText);
+    try {
+        localStorage.setItem(localKey, JSON.stringify(scannedResults));
+    } catch {}
+}
+
+function submitResult() {
+    let scannedResults = [];
+    try {
+        scannedResults = JSON.parse(localStorage.getItem(localKey)) || [];
+    } catch {}
+    let isOk = confirm(
+        `Total: ${scannedResults.length}\n${scannedResults.join("\n")}`
+    );
+    if (isOk) {
+        let resultKey = getQueryParameterByKey("resultKey");
+        window.location.href = `http://localhost:5173/employee/scan?resultKey=${resultKey}&results=${scannedResults.join(
+            ","
+        )}`;
+    }
 }
