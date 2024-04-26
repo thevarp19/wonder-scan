@@ -138,6 +138,7 @@ function saveResult() {
     scannedResults.push(result_value.innerText);
     try {
         localStorage.setItem(localKey, JSON.stringify(scannedResults));
+        showNotification("Saved!");
     } catch {}
 }
 
@@ -156,4 +157,24 @@ function submitResult() {
         });
         window.location.href = baseLink;
     }
+}
+
+const NOTIFICATION_DURING = 1000;
+
+function showNotification(message) {
+    const notification = document.getElementById("notification");
+    notification.innerText = message;
+    notification.classList.remove("hidden");
+    notification.style.opacity = 1;
+
+    setTimeout(function () {
+        notification.style.opacity = 0;
+        notification.addEventListener(
+            "transitionend",
+            function () {
+                notification.classList.add("hidden");
+            },
+            { once: true }
+        );
+    }, NOTIFICATION_DURING);
 }
