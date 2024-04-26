@@ -1,0 +1,27 @@
+.buttons_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    bottom: 10dvh;
+    left: 0;
+    width: 100vw;
+    z-index: 1000;
+}
+
+.buttons_container button {
+    font-size: 24px;
+    padding-inline: 20px;
+}
+
+.result_view {
+    position: fixed;
+    bottom: 14dvh;
+    left: 0;
+    text-align: center;
+    width: 100vw;
+    z-index: 1000;
+    color: white;
+    background-color: black;
+}
