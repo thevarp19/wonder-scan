@@ -1,4 +1,5 @@
 const localKey = "scannedResults";
+let redirectUrl = "https://wonder-front/employee/scan";
 
 function getQueryParameterByKey(key) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -7,6 +8,7 @@ function getQueryParameterByKey(key) {
 
 function setupLiveReader(resultElement) {
     localStorage.removeItem(localKey);
+
     var container = document.createElement("div");
 
     container.style.position = "absolute";
@@ -42,14 +44,10 @@ function setupLiveReader(resultElement) {
 
             BarcodeScanner.init();
             BarcodeScanner.streamCallback = function (result) {
-                // console.log("barcode detected, stream will stop");
-                // console.log(result);
                 result_value.innerHTML = result[0].Value;
-                // resultElement.innerHTML = result[0].Value;
                 // BarcodeScanner.StopStreamDecode();
                 // video.pause();
                 // stream.getTracks()[0].stop();
-                // container.style.display = "none";
             };
 
             video.setAttribute("autoplay", "");
@@ -92,15 +90,49 @@ function setupLiveReader(resultElement) {
         .catch(function (err) {
             console.log(err);
         });
+    setupButtons();
+}
+
+function setupButtons() {
+    const scanType = getQueryParameterByKey("type");
+    if (scanType === "multiple") {
+        const confirmButton = document.getElementById("confirm_button");
+        confirmButton.style.display = "none";
+    } else {
+        const submitButton = document.getElementById("submit_button");
+        submitButton.style.display = "none";
+        const saveButton = document.getElementById("save_button");
+        saveButton.style.display = "none";
+    }
+    const mode = getQueryParameterByKey("mode");
+    if (mode === "dev") {
+        redirectUrl = "http://localhost:5173//employee/scan";
+    }
+}
+
+function confirmResult() {
+    const result_value = document.getElementById("result_value").innerText;
+    if (!result_value || result_value === "Value") {
+        return;
+    }
+    const isOk = confirm(`Confirm: ${result_value}`);
+    if (isOk) {
+        window.location.href = `${redirectUrl}?type=single&result=${result_value}`;
+    }
 }
 
 function saveResult() {
-    var result_value = document.getElementById("result_value");
+    const result_value = document.getElementById("result_value");
     let scannedResults = [];
     try {
         scannedResults = JSON.parse(localStorage.getItem(localKey)) || [];
     } catch {}
-    if (scannedResults.includes(result_value.innerText)) {
+
+    if (
+        !result_value.innerText ||
+        scannedResults.includes(result_value.innerText) ||
+        result_value.innerText === "Value"
+    ) {
         return;
     }
     scannedResults.push(result_value.innerText);
@@ -118,9 +150,10 @@ function submitResult() {
         `Total: ${scannedResults.length}\n${scannedResults.join("\n")}`
     );
     if (isOk) {
-        let resultKey = getQueryParameterByKey("resultKey");
-        window.location.href = `http://localhost:5173/employee/scan?resultKey=${resultKey}&results=${scannedResults.join(
-            ","
-        )}`;
+        let baseLink = `${redirectUrl}?type=multiple`;
+        scannedResults.forEach((result) => {
+            baseLink += `&result=${result}`;
+        });
+        window.location.href = baseLink;
     }
 }
