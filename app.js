@@ -1,5 +1,5 @@
 const localKey = "scannedResults";
-let redirectUrl = "https://wonder-front/employee/scan";
+let redirectUrl = "https://wonder-front.vercel.app/employee/scan";
 
 function getQueryParameterByKey(key) {
     const urlParams = new URLSearchParams(window.location.search);
