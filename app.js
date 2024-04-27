@@ -106,7 +106,7 @@ function setupButtons() {
     }
     const mode = getQueryParameterByKey("mode");
     if (mode === "dev") {
-        redirectUrl = "http://localhost:5173//employee/scan";
+        redirectUrl = "http://localhost:5173/employee/scan";
     }
 }
 
@@ -116,8 +116,9 @@ function confirmResult() {
         return;
     }
     const isOk = confirm(`Confirm: ${result_value}`);
+    const step = getQueryParameterByKey("step") || 1;
     if (isOk) {
-        window.location.href = `${redirectUrl}?type=single&result=${result_value}`;
+        window.location.href = `${redirectUrl}?type=single&result=${result_value}&step=${step}`;
     }
 }
 
@@ -151,7 +152,8 @@ function submitResult() {
         `Total: ${scannedResults.length}\n${scannedResults.join("\n")}`
     );
     if (isOk) {
-        let baseLink = `${redirectUrl}?type=multiple`;
+        const step = getQueryParameterByKey("step") || 1;
+        let baseLink = `${redirectUrl}?type=multiple&step=${step}`;
         scannedResults.forEach((result) => {
             baseLink += `&result=${result}`;
         });
