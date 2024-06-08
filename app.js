@@ -105,8 +105,26 @@ function setupButtons() {
         saveButton.style.display = "none";
     }
     const mode = getQueryParameterByKey("mode");
+    const useFor = getQueryParameterByKey("useFor");
     if (mode === "dev") {
-        redirectUrl = "http://localhost:5173/employee/scan";
+        if (useFor) {
+            if (useFor === "employeeSearch") {
+                redirectUrl = "http://localhost:5173/employee/search";
+            } else if (useFor === "employeeSize") {
+                redirectUrl = "http://localhost:5173/employee/sizes";
+            } else {
+                redirectUrl = "http://localhost:5173/employee/scan";
+            }
+        } else redirectUrl = "http://localhost:5173/employee/scan";
+    }
+    if (useFor) {
+        if (useFor === "employeeSearch") {
+            redirectUrl = "https://wonder-front.vercel.app/employee/search";
+        } else if (useFor === "employeeSize") {
+            redirectUrl = "https://wonder-front.vercel.app/employee/sizes";
+        } else {
+            redirectUrl = "https://wonder-front.vercel.app/employee/scan";
+        }
     }
 }
 
