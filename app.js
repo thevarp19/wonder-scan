@@ -116,8 +116,7 @@ function setupButtons() {
                 redirectUrl = "http://localhost:5173/employee/scan";
             }
         } else redirectUrl = "http://localhost:5173/employee/scan";
-    }
-    if (useFor) {
+    } else {
         if (useFor === "employeeSearch") {
             redirectUrl = "https://wonder-front.vercel.app/employee/search";
         } else if (useFor === "employeeSize") {
