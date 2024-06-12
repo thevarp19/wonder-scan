@@ -132,7 +132,7 @@ function confirmResult() {
     if (!result_value || result_value === "Value") {
         return;
     }
-    const isOk = confirm(`Confirm: ${result_value}`);
+    const isOk = confirm(`Подтвердить: ${result_value}`);
     const step = getQueryParameterByKey("step") || 1;
     if (isOk) {
         window.location.href = `${redirectUrl}?type=single&result=${result_value}&step=${step}`;
@@ -149,14 +149,14 @@ function saveResult() {
     if (
         !result_value.innerText ||
         scannedResults.includes(result_value.innerText) ||
-        result_value.innerText === "Value"
+        result_value.innerText === "Значение"
     ) {
         return;
     }
     scannedResults.push(result_value.innerText);
     try {
         localStorage.setItem(localKey, JSON.stringify(scannedResults));
-        showNotification("Saved!");
+        showNotification("Сохранено!");
     } catch {}
 }
 
@@ -166,7 +166,7 @@ function submitResult() {
         scannedResults = JSON.parse(localStorage.getItem(localKey)) || [];
     } catch {}
     let isOk = confirm(
-        `Total: ${scannedResults.length}\n${scannedResults.join("\n")}`
+        `Всего: ${scannedResults.length}\n${scannedResults.join("\n")}`
     );
     if (isOk) {
         const step = getQueryParameterByKey("step") || 1;
