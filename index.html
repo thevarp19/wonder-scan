@@ -4,21 +4,23 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Wonder scan</title>
+        <title>Wonder Сканирование</title>
         <link rel="stylesheet" href="index.css" />
     </head>
 
     <body>
-        <p id="code">LOADING...</p>
-        <h1 id="result_value" class="result_view">Value</h1>
+        <p id="code">Загрузка...</p>
+        <h1 id="result_value" class="result_view">Значение</h1>
         <div class="buttons_container">
-            <button id="save_button" onclick="saveResult()">Save</button>
-            <button id="submit_button" onclick="submitResult()">Submit</button>
+            <button id="save_button" onclick="saveResult()">Сохранить</button>
+            <button id="submit_button" onclick="submitResult()">
+                Отправить
+            </button>
             <button id="confirm_button" onclick="confirmResult()">
-                Confirm
+                Подтвердить
             </button>
         </div>
-        <div id="notification" class="hidden">Notification!</div>
+        <div id="notification" class="hidden">Уведомление!</div>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="BarcodeScanner.js"></script>
         <script src="app.js"></script>
