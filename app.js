@@ -179,9 +179,10 @@ function submitResult() {
         return;
 
     const step = getQueryParameterByKey("step") || 1;
-    const baseLink = `${redirectUrl}?type=multiple&step=${step}&results=${encodeURIComponent(
-        scannedResults.join(",")
-    )}`;
+    let baseLink = `${redirectUrl}?type=multiple&step=${step}`;
+    scannedResults.forEach((result) => {
+        baseLink += `&result=${result}`;
+    });
     window.location.href = baseLink;
 }
 
