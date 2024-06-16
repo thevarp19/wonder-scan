@@ -125,6 +125,7 @@ function hideElementById(elementId) {
 function updateRedirectUrl() {
     const mode = getQueryParameterByKey("mode");
     const useFor = getQueryParameterByKey("useFor");
+    const orderId = getQueryParameterByKey("orderId");
     const baseUrl =
         mode === "dev"
             ? "http://localhost:5173"
@@ -134,6 +135,8 @@ function updateRedirectUrl() {
         redirectUrl = `${baseUrl}/employee/search`;
     } else if (useFor === "employeeSize") {
         redirectUrl = `${baseUrl}/employee/sizes`;
+    } else if (useFor === "employeeOrder") {
+        redirectUrl = `${baseUrl}/employee/orders/${orderId}`;
     } else {
         redirectUrl = `${baseUrl}/employee/scan`;
     }
