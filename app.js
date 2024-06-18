@@ -137,6 +137,8 @@ function updateRedirectUrl() {
         redirectUrl = `${baseUrl}/employee/sizes`;
     } else if (useFor === "employeeOrder") {
         redirectUrl = `${baseUrl}/employee/orders/${orderId}`;
+    } else if (useFor === "employeePackage") {
+        redirectUrl = `${baseUrl}/employee/orders/${orderId}`;
     } else {
         redirectUrl = `${baseUrl}/employee/scan`;
     }
