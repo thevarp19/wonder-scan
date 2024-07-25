@@ -129,7 +129,7 @@ function updateRedirectUrl() {
     const baseUrl =
         mode === "dev"
             ? "http://localhost:5173"
-            : "https://wonder-front.vercel.app";
+            : "https://wonder-v2.vercel.app";
 
     if (useFor === "employeeSearch") {
         redirectUrl = `${baseUrl}/employee/search`;
